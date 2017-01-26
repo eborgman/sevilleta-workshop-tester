@@ -1,0 +1,10 @@
+---
+title: "Data simulator"
+---
+
+Testing this.
+
+<iframe src="https://lzachmann.shinyapps.io/na-fires-summary/" 
+height="600" width="100%"
+        scrolling="no" seamless="seamless"
+        frameBorder="0"></iframe>.
