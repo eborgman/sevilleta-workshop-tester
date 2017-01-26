@@ -1,0 +1,26 @@
+---
+title: "Welcome to the Uplands Analytical Workshop!"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE)
+```
+
+National Park Service (NPS) Inventory and Monitoring (I&M) networks are charged with implementing a long-term ecological monitoring program to assess status and trends in the condition of natural resources across NPS units. This website summarizes the support provided by CSP through several use cases involving models specified to both simulated and actual I&M datasets. 
+
+#### Dependencies
+Stepping through the examples provided in the 'Use cases' pages will require [R](https://www.r-project.org) and the following R packages:  
+
+* [dplyr](https://github.com/hadley/dplyr)
+* [lme4](https://github.com/lme4/lme4) 
+* [ggplot2](https://github.com/tidyverse/ggplot2)
+
+And optionally:
+
+* [rstan](https://github.com/stan-dev/rstan)
+<!-- [sf](https://github.com/edzer/sfr) -->
+
+Alternatively, you can connect to a Microsoft Azure virtual machine (VM) image pre-installed and configured with all dependencies here.
+
+
+

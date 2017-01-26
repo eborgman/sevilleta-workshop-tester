@@ -1,0 +1,26 @@
+---
+title: "About the workshop"
+---
+
+The five participating Intermountain Region Inventory and Monitoring networks include:
+
+* Northern Colorado Plateau Network (NCPN)
+* Greater Yellowstone Network (GRYN)
+* Southern Colorado Plateau Network (SCPN)
+* Rocky Mountain Network (ROMN)
+* Chihuahuan Desert Network (CHDN)
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, message=FALSE)
+```
+
+```{r}
+# Read the chunk (does not run the code).
+knitr::read_chunk(file.path(PROJ_ROOT, 'map.R'))
+```
+
+```{r}
+# Run the chunk.
+<<variablesXY>>
+```

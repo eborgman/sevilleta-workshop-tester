@@ -1,0 +1,53 @@
+network_code park_code park_name region
+CHDN AMIS "Amistad NRA" IM
+CHDN BIBE "Big Bend NP" IM
+CHDN CAVE "Carlsbad Caverns NP" IM
+CHDN FODA "Fort Davis NHS" IM
+CHDN GUMO "Guadalupe Mountains NP" IM
+CHDN RIGR "Rio Grande WSR" IM
+CHDN WHSA "White Sands NMON" IM
+ROMN FLFO "Florissant Fossil Beds NMON" IM
+ROMN GLAC "Glacier NP" IM
+ROMN GRKO "Grant-Kohrs Ranch NHS" IM
+ROMN GRSA "Great Sand Dunes NP" IM
+ROMN LIBI "Little Bighorn Battlefield NMON" IM
+ROMN ROMO "Rocky Mountain NP" IM
+SCPN AZRU "Aztec Ruins NMON" IM
+SCPN BAND "Bandalier NMON" IM
+SCPN CACH "Canyon de Chelly NMON" IM
+SCPN CHCU "Chaco Culture NHP" IM
+SCPN ELMA "El Malpais NMON" IM
+SCPN ELMO "El Morro NMON" IM
+SCPN GLCA "Glen Canyon NRA" IM
+SCPN GRCA "Grand Canyon NP" IM
+SCPN HUTR "Hubbell Trading Post NHS" IM
+SCPN MEVE "Mesa Verde NP" IM
+SCPN NAVA "Navajo NMON" IM
+SCPN PEFO "Petrified Forest NP" IM
+SCPN PETR "Petroglyph NMON" IM
+SCPN RABR "Rainbow Bridge NMON" IM
+SCPN SAPU "Salinas Pueblo Missions NMON" IM
+SCPN SUCR "Sunset Crater Volcano NMON" IM
+SCPN WACA "Walnut Canyon NMON" IM
+SCPN WUPA "Wupatki NMON" IM
+SCPN YUHO "Yucca House NMON" IM
+NCPN ARCH "Arches NP" IM
+NCPN BLCA "Black Canyon of the Gunnison NP" IM
+NCPN BRCA "Bryce Canyon NP" IM
+NCPN CANY "Canyonlands NP" IM
+NCPN CARE "Capitol Reef NP" IM
+NCPN CEBR "Cedar Breaks NMON" IM
+NCPN COLM "Colorado NMON" IM
+NCPN CURE "Curecanti NRA" IM
+NCPN DINO "Dinosaur NMON" IM
+NCPN FOBU "Fossil Butte NMON" IM
+NCPN GOSP "Golden Spike NHS" IM
+NCPN HOVE "Hovenweep NMON" IM
+NCPN NABR "Natural Bridges NMON" IM
+NCPN PISP "Pipe Spring NMON" IM
+NCPN TICA "Timpanogos Cave NMON" IM
+NCPN ZION "Zion NP" IM
+GRYN BICA "Bighorn Canyon NRA" IM
+GRYN GRTE "Grand Teton NP" IM
+GRYN YELL "Yellowstone NP" IM
+GRYN JODR "John D Rockefeller Jr. Mem. Pkwy" IM

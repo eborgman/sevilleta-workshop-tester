@@ -1,0 +1,10 @@
+funding_order network_name network_code
+8 "Northern Colorado Plateau Network" NCPN
+10 "Greater Yellowstone Network" GRYN
+15 "Southern Colorado Plateau Network" SCPN
+19 "Rocky Mountain Network" ROMN
+31 "Chihuahuan Desert Network" CHDN
+
+
+
+
