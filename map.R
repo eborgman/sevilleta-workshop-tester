@@ -1,4 +1,4 @@
-## @knitr variablesXY
+## @knitr leaflet_map
 
 library(dplyr)
 library(sf)

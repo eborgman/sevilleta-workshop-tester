@@ -9,7 +9,7 @@ The five participating Intermountain Region Inventory and Monitoring networks in
 * Southern Colorado Plateau Network (SCPN)
 * Rocky Mountain Network (ROMN)
 * Chihuahuan Desert Network (CHDN)
-
+<br><br>
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=FALSE, message=FALSE)
@@ -22,5 +22,5 @@ knitr::read_chunk(file.path(PROJ_ROOT, 'map.R'))
 
 ```{r}
 # Run the chunk.
-<<variablesXY>>
+<<leaflet_map>>
 ```
