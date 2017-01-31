@@ -203,8 +203,81 @@ $(document).ready(function () {
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#no-design-weights-no-covariance-structure">No design weights | no covariance structure</a></li>
+<li><a href="#tbd.">TBD….</a></li>
+</ul>
+</div>
 
-<p>TBD….</p>
+<!-- # Simple cases -->
+<p>The following use cases were designed to illustrate Maximum Likelihood (ML) and Bayesian parameter estimation for data collected using a revisit design.</p>
+<div id="no-design-weights-no-covariance-structure" class="section level2">
+<h2>No design weights | no covariance structure</h2>
+<p>The examples below assume that errors are not correlated within nor between measures. We also ignore aspects of membership design and any specification of design weights.</p>
+<div id="a-random-intercepts-model-for-a-normally-distributed-outcome" class="section level4">
+<h4>A random-intercepts model for a normally-distributed outcome</h4>
+<p>Let’s assume we’ve generated (and <em>downloaded</em>) revisit design data with the following structure: <span class="math inline">\([(1-0)^1, (2-3)^4]\)</span> with 5 and 7 units in panels 1 and 2, respectively, for a total 33 units visited between 2008 and 2016. The hyperparameters we invoked in simulating the (normally-distributed) outcome were: <span class="math inline">\(\sigma_{u_0}=1\)</span>, <span class="math inline">\(\beta_0=3\)</span>, <span class="math inline">\(\sigma_{\epsilon_0}=2\)</span>, and <span class="math inline">\(\beta_1=1.5\)</span>.</p>
+<pre class="r"><code>library(dplyr)
+library(ggplot2)
+library(lme4)
+
+
+csv_file &lt;- &#39;/Users/lukezachmann/Downloads/data-2017-01-31.csv&#39;  # UPDATE!
+dat &lt;- read.csv(csv_file) %&gt;%
+  mutate(group=interaction(panel, subpanel, unit)) %&gt;% 
+  mutate(period=period-min(period))
+
+p &lt;- ggplot(dat %&gt;% filter(is_sampled==1)) +
+      geom_line(aes(x=period, y=y, group=interaction(panel, subpanel, unit),
+                color=factor(panel))) +
+   scale_color_brewer(&#39;Panel&#39;, type=&#39;qual&#39;, palette=&#39;Set1&#39;) +
+  labs(x=&#39;Years elapsed since the first sampling event&#39;, y=&#39;Simulated outcome&#39;)</code></pre>
+<br>
+<center>
+<div style="width:60%;">
+</p>
+<img src="use-cases_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+<p style="text-align: justify; font-size:90%; width:100%;">
+<strong>Figure 1. Simulated data.</strong>
+</p>
+</div>
+</center>
+<p><br></p>
+<pre class="r"><code># Complete (non-rotating) observations.
+lmer(y ~ period + (1|group), data=dat)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: y ~ period + (1 | group)
+##    Data: dat
+## REML criterion at convergence: 1282.761
+## Random effects:
+##  Groups   Name        Std.Dev.
+##  group    (Intercept) 0.9765  
+##  Residual             1.9518  
+## Number of obs: 297, groups:  group, 33
+## Fixed Effects:
+## (Intercept)       period  
+##       3.000        1.519</code></pre>
+<pre class="r"><code># Incomplete (rotating) observations
+lmer(y ~ period + (1|group), data=dat %&gt;% filter(is_sampled==1))</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: y ~ period + (1 | group)
+##    Data: dat %&gt;% filter(is_sampled == 1)
+## REML criterion at convergence: 629.7842
+## Random effects:
+##  Groups   Name        Std.Dev.
+##  group    (Intercept) 0.5604  
+##  Residual             1.8827  
+## Number of obs: 150, groups:  group, 33
+## Fixed Effects:
+## (Intercept)       period  
+##       3.200        1.462</code></pre>
+<!-- # More involved cases -->
+</div>
+</div>
+<div id="tbd." class="section level2">
+<h2>TBD….</h2>
+</div>
 
 
 

@@ -2,9 +2,12 @@
 title: "Data simulator"
 ---
 
-Testing this.
+The application embedded below can be used to generate revisit design data,
+which we will use throughout the workshop to evaluate alternative model 
+specifications and, specifically, whether parameters can be reliably recovered 
+for a given dataset.
 
-<iframe src="https://lzachmann.shinyapps.io/na-fires-summary/" 
-height="600" width="100%"
-        scrolling="no" seamless="seamless"
+<iframe src="https://lzachmann.shinyapps.io/rd-emulator/" 
+height="800" width="100%"
+        scrolling="yes" seamless="seamless"
         frameBorder="0"></iframe>.
