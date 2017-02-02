@@ -30,7 +30,7 @@ library(ggplot2)
 library(lme4)
 
 
-csv_file <- '/Users/lukezachmann/Downloads/data-2017-01-31.csv'  # UPDATE!
+csv_file <- '/Users/lukezachmann/Downloads/data-2017-02-01.csv'  # UPDATE!
 dat <- read.csv(csv_file) %>%
   mutate(group=interaction(panel, subpanel, unit)) %>% 
   mutate(period=period-min(period))
@@ -57,6 +57,38 @@ lmer(y ~ period + (1|group), data=dat)
 # Incomplete (rotating) observations
 lmer(y ~ period + (1|group), data=dat %>% filter(is_sampled==1))
 ```
+
+
+#### A random-intercepts model for a Poisson-distributed outcome
+```{r}
+csv_file <- '/Users/lukezachmann/Downloads/data-2017-02-01-pois.csv'  # UPDATE!
+dat <- read.csv(csv_file) %>%
+  mutate(group=interaction(panel, subpanel, unit)) %>% 
+  mutate(period=period-min(period))
+
+p <- ggplot(dat %>% filter(is_sampled==1)) +
+      geom_line(aes(x=period, y=y, group=interaction(panel, subpanel, unit),
+                color=factor(panel))) +
+   scale_color_brewer('Panel', type='qual', palette='Set1') +
+  labs(x='Years elapsed since the first sampling event', y='Simulated outcome')
+```
+
+<br><center><div style="width:60%;"></p>
+```{r, echo=FALSE}
+p
+```
+<p style="text-align: justify; font-size:90%; width:100%;">
+__Figure 1. Simulated data.__</p></div></center><br>
+
+
+```{r}
+# Complete (non-rotating) observations.
+glmer(y ~ period + (1|group), data=dat, family=poisson)
+
+# Incomplete (rotating) observations
+glmer(y ~ period + (1|group), data=dat %>% filter(is_sampled==1), family=poisson)
+```
+
 
 <!-- # More involved cases -->
 ## TBD....

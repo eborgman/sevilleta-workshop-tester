@@ -8,6 +8,6 @@ specifications and, specifically, whether parameters can be reliably recovered
 for a given dataset.
 
 <iframe src="https://lzachmann.shinyapps.io/rd-emulator/" 
-height="800" width="100%"
+height="800" width="110%"
         scrolling="yes" seamless="seamless"
         frameBorder="0"></iframe>.

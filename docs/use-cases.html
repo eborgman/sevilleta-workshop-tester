@@ -223,7 +223,7 @@ library(ggplot2)
 library(lme4)
 
 
-csv_file &lt;- &#39;/Users/lukezachmann/Downloads/data-2017-01-31.csv&#39;  # UPDATE!
+csv_file &lt;- &#39;/Users/lukezachmann/Downloads/data-2017-02-01.csv&#39;  # UPDATE!
 dat &lt;- read.csv(csv_file) %&gt;%
   mutate(group=interaction(panel, subpanel, unit)) %&gt;% 
   mutate(period=period-min(period))
