@@ -9,7 +9,8 @@ fluidPage(
   fluidRow(
     tabsetPanel(type='tabs',
                 tabPanel('Layout', plotOutput('layout')),
-                tabPanel('Data', uiOutput('data'))
+                tabPanel('Data', uiOutput('data')),
+                tabPanel('Analysis', uiOutput('analysis'))
     ),
     hr(),
     column(5,

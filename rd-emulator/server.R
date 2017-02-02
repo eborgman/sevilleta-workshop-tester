@@ -112,6 +112,49 @@ function(input, output) {
     )
   })
 
+  output$analysis <- renderUI({
+    rep_analysis <- function(n, data) {
+      sim_data_using_hyperparams(input, data)
+    }
+    dat <- simulated_data()$sim_df_full %>%
+      mutate(group=interaction(panel, subpanel, unit)) %>%
+      mutate(period=period-min(period))
+    m <- glmer(y ~ period + (1|group), data=dat, family='gaussian')
+    # browser()
+    tmp <- lapply(seq_len(50), rep_analysis,  #
+           data=core_panel_data()$df) #
+    tmp_out <- lapply(tmp, function(x) {
+      x <- x %>%
+        mutate(group=interaction(panel, subpanel, unit)) %>%
+        mutate(period=period-min(period))
+      m1 <- update(m, data=x)
+      betas <- summary(m1)$coefficients %>% as.data.frame %>% .[['Estimate']]
+      sigmas <- VarCorr(m1) %>% as.data.frame %>% .[['sdcor']]
+      data.frame(variable=c('beta_0', 'beta_1', 'sigma_u0', 'sigma'),
+                 value=c(betas, sigmas))
+    }) %>% bind_rows(., .id='test') %>% as.data.frame
+    print(input$analysis_reps)
+    print(str(input$analysis_reps))
+    fluidRow(
+      column(6,
+        renderPrint({
+          summary(m)
+        })
+      ),
+      column(6,
+             tagList(
+               numericInput("analysis_reps", label = h4("Analysis replicates"), value = 1),
+               h4("Recovery"),
+               renderPlot({
+                 ggplot(tmp_out) +
+                   geom_histogram(aes(x=value), color='black', fill='white') +
+                   facet_grid(.~variable, scales='free_x')
+               })
+             )
+      )
+    )
+  })
+
   output$downloadData <- downloadHandler(
     filename=function() {
       paste("data-", Sys.Date(), ".csv", sep="")

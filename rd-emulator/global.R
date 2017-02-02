@@ -80,7 +80,7 @@ sim_data_using_hyperparams <- function(input, data) {
   # browser()
 
   # Set seed for replicability.
-  set.seed(123)
+  # set.seed(123)
   # Random intercepts.
   sigma_u0 <- input[['hyperparamInput-sigma_u0']]
   u_0j     <- rnorm(n = u_units, mean = 0, sd = sigma_u0)
