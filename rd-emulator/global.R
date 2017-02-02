@@ -90,7 +90,6 @@ sim_data_using_hyperparams <- function(input, data) {
   beta_0j  <- rep(beta_0 + u_0j, unit_reps)
   # Individual-level error.
   sigma    <- input[['hyperparamInput-sigma']]
-  # e_0ij    <- rnorm(n, mean = 0, sd = sigma)
   # Covariate (based on period).
   X_1ij    <- design_framework$period - min(design_framework$period)
   # X_2ij    <- runif(n = nrow(design_framework), min = 0, max = 20)
@@ -101,12 +100,11 @@ sim_data_using_hyperparams <- function(input, data) {
   # browser()
   if (input$dist=='norm') {
     Y_ij     <- rnorm(n, beta_0j + beta_1*X_1ij, sigma)
+  } else if (input$dist=='lnorm') {
+    Y_ij     <- rlnorm(n, exp(beta_0j + beta_1*X_1ij), sigma)
   } else if (input$dist=='pois') {
     Y_ij     <- rpois(n, exp(beta_0j + beta_1*X_1ij))
   }
-
-  # lambda <- exp(X %*% beta)
-  # y <- rpois(n, lambda)
 
   design_framework %>% mutate(y=Y_ij)
 }

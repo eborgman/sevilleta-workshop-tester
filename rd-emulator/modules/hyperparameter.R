@@ -1,21 +1,32 @@
-hyperparameterInput <- function(id, label="Panel input") {
+dist_init <- data.frame(
+  dist=c('norm', 'lnorm', 'pois'),  #, 'binom'
+  beta_0=c(3, 0.5, 0.5),
+  beta_1=c(1.5, -1, -1),
+  sigma_u0=c(1, 0.2, 0.2),
+  sigma=c(2, 0.75, NA)
+)
+
+hyperparameterInput <- function(input, id, label="Panel input",
+                                dist_lookup=dist_init) {
   # A module UI function for numeric input related to hyperparameters.
   ns <- NS(id)  # a namespace function using the provided id
   style <-
     'display:inline-block; vertical-align:center; width:20%;'
+  # browser()
+  init_values <- dist_lookup %>% filter(dist==input$dist)
   tagList(
     tags$div(style=style,
-             numericInput(ns('beta_0'), label=h4(withMathJax('$$\\beta_0$$')),
-                          value=3)),
+             numericInput(ns('beta_0'), label=h5(withMathJax('$$\\beta_0$$')),
+                          value=init_values$beta_0)),
     tags$div(style=style,
-             numericInput(ns('beta_1'), label=h4(withMathJax('$$\\beta_1$$')),
-                          value=1.5)),
+             numericInput(ns('beta_1'), label=h5(withMathJax('$$\\beta_1$$')),
+                          value=init_values$beta_1)),
     tags$div(style=style,
-             numericInput(ns('sigma_u0'), label=h4(withMathJax('$$\\sigma_{u_0}$$')),
-                          value=1, min=0)),
+             numericInput(ns('sigma_u0'), label=h5(withMathJax('$$\\sigma_{u_0}$$')),
+                          value=init_values$sigma_u0, min=0)),
     tags$div(style=style,
-             numericInput(ns('sigma'), label=h4(withMathJax('$$\\sigma_{\\epsilon_0}$$')),
-                          value=2, min=0)),
+             numericInput(ns('sigma'), label=h5(withMathJax('$$\\sigma$$')),
+                          value=init_values$sigma, min=0)),
     bsTooltip(ns('beta_0'), 'Population intercept',
               placement='bottom', trigger='hover', options=NULL),
     bsTooltip(ns('beta_1'), 'Population slope',

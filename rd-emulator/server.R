@@ -11,7 +11,7 @@ function(input, output) {
                    norm=rnorm,
                    lnorm=rlnorm,
                    pois=rpois,
-                   binom=rbinom,
+                   # binom=rbinom,
                    rnorm)
     # dist(input$n)  # use design_framework object
   })
@@ -49,6 +49,34 @@ function(input, output) {
     return(list(df=lapply(ui_panel_inputs, bind_inputs) %>%
                   bind_rows %>%
                   filter(!panel_input %in% dropped_panel_input)))
+  })
+
+  output$test_this <- renderUI({
+    if(input$dist=='norm') {
+      eq <- withMathJax("$$\\begin{align}
+                        Y_{ij} &\\sim N(\\beta_{0 j}+\\beta_1X_{1ij}, \\sigma^2) \\\\
+                        \\beta_{0j}&=\\beta_{0}+u_{0j} \\\\
+                        u_{0j}&=N(0, \\sigma^2_{u_0}) \\\\
+                        \\end{align}$$")
+    } else if (input$dist=='lnorm') {
+      eq <- withMathJax("$$\\begin{align}
+                        Y_{ij} &\\sim lognormal(\\beta_{0 j}+\\beta_1X_{1ij}, \\sigma^2) \\\\
+                        \\beta_{0j}&=\\beta_{0}+u_{0j} \\\\
+                        u_{0j}&=N(0, \\sigma^2_{u_0}) \\\\
+                        \\end{align}$$")
+    } else if (input$dist=='pois') {
+      eq <- withMathJax("$$\\begin{align}
+                        Y_{ij} &\\sim Poisson(\\lambda) \\\\
+                        log(\\lambda)&=\\beta_{0 j}+\\beta_1X_{1ij} \\\\
+                        \\beta_{0j}&=\\beta_{0}+u_{0j} \\\\
+                        u_{0j}&=N(0, \\sigma^2_{u_0}) \\\\
+                        \\end{align}$$")
+    }
+    tagList(
+      eq,
+      hyperparameterInput(input, 'hyperparamInput')
+    )
+
   })
 
   output$data <- renderUI({
