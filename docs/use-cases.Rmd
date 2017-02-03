@@ -92,3 +92,9 @@ glmer(y ~ period + (1|group), data=dat %>% filter(is_sampled==1), family=poisson
 
 <!-- # More involved cases -->
 ## TBD....
+
+### Estimation with glm
+We can obtain maximum likelihood estimates for the coefficients, along with frequentist t-values and confidence intervals with the ??glmer function.
+
+### Estimation with Stan
+Here is a Stan file that can be used to fit a Poisson glm without an offset.
