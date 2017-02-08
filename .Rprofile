@@ -6,5 +6,3 @@ cat("Sourcing project-specific .Rprofile file\n")
 cat("Retrieve the top-level project directory at any time with PROJ_ROOT\n")
 
 source(file.path(PROJ_ROOT, "utils.R"))
-
-source(file.path(PROJ_ROOT, "packrat/init.R"))
