@@ -3,8 +3,6 @@
 library(dplyr)
 library(sf)
 library(leaflet)
-library(htmlwidgets)
-library(rdrop2)
 
 
 update_index = FALSE
@@ -41,6 +39,7 @@ m <- leaflet() %>%
   )
 m
 if(update_index) {
-  saveWidget(m, file=file.path(PROJ_ROOT, 'maps', 'index.html'))
-  drop_upload(file.path(PROJ_ROOT, 'maps', 'index.html'), dest = 'public/sev_leaflet_map')
+  htmlwidgets::saveWidget(m, file=file.path(PROJ_ROOT, 'maps', 'index.html'))
+  rdrop2::drop_upload(file.path(PROJ_ROOT, 'maps', 'index.html'),
+                      dest = 'public/sev_leaflet_map')
 }
