@@ -11,7 +11,7 @@ Bayesian parameter estimation for data collected using a revisit design.
 
 ## No design weights | no covariance structure
 The examples below assume that errors are not correlated within nor between 
-measures. We also ignore aspects of membership design and any specification of design weights. 
+measures. We also ignore aspects of membership design and any specification of design weights. We use `glmer()` to obtain maximum likelihood estimates for the coefficients.
 
 #### A random-intercepts model for a normally-distributed outcome
 Let's assume we've generated (and _downloaded_) revisit design data with the 
@@ -30,7 +30,7 @@ library(ggplot2)
 library(lme4)
 
 
-csv_file <- '/Users/lukezachmann/Downloads/data-2017-02-01.csv'  # UPDATE!
+csv_file <- file.path(PROJ_ROOT, 'data', 'simulated', 'data-2017-02-01.csv')
 dat <- read.csv(csv_file) %>%
   mutate(group=interaction(panel, subpanel, unit)) %>% 
   mutate(period=period-min(period))
@@ -61,7 +61,7 @@ lmer(y ~ period + (1|group), data=dat %>% filter(is_sampled==1))
 
 #### A random-intercepts model for a Poisson-distributed outcome
 ```{r}
-csv_file <- '/Users/lukezachmann/Downloads/data-2017-02-01-pois.csv'  # UPDATE!
+csv_file <- file.path(PROJ_ROOT, 'data', 'simulated', 'data-2017-02-01-pois.csv')
 dat <- read.csv(csv_file) %>%
   mutate(group=interaction(panel, subpanel, unit)) %>% 
   mutate(period=period-min(period))
@@ -93,8 +93,6 @@ glmer(y ~ period + (1|group), data=dat %>% filter(is_sampled==1), family=poisson
 <!-- # More involved cases -->
 ## TBD....
 
-### Estimation with glm
-We can obtain maximum likelihood estimates for the coefficients, along with frequentist t-values and confidence intervals with the ??glmer function.
 
 ### Estimation with Stan
 Here is a Stan file that can be used to fit a Poisson glm without an offset.
