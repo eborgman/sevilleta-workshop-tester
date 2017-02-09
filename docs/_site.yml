@@ -7,8 +7,14 @@ navbar:
       href: index.html
     - text: "About"
       href: about.html
-    - text: "Use cases"
-      href: use-cases.html
+      #    - text: "Use cases"
+      #href: use-cases.html
     - text: "Simulator"
       href: simulator.html
+output:
+  html_document:
+    include:
+      after_body: footer.html
+    css: styles.css
+
 output_dir: "."

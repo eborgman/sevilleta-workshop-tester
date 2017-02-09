@@ -66,6 +66,7 @@ h6 {
 }
 </style>
 
+<link rel="stylesheet" href="styles.css" type="text/css" />
 
 </head>
 
@@ -182,9 +183,6 @@ $(document).ready(function () {
   <a href="about.html">About</a>
 </li>
 <li>
-  <a href="use-cases.html">Use cases</a>
-</li>
-<li>
   <a href="simulator.html">Simulator</a>
 </li>
       </ul>
@@ -249,14 +247,10 @@ $ git clone https://github.com/lzachmann/sevilleta-workshop-tester.git .</code><
 <ul>
 <li>Configuration parameters:
 <ul>
-<li>Host: 52.175.221.211<br />
-</li>
-<li>Login: User name on the Linux VM<br />
-</li>
-<li>SSH Port: Leave it at 22, the default value<br />
-</li>
-<li>Session Type: Change the value to XFCE<br />
-</li>
+<li>Host: 52.175.221.211<br /></li>
+<li>Login: User name on the Linux VM<br /></li>
+<li>SSH Port: Leave it at 22, the default value<br /></li>
+<li>Session Type: Change the value to XFCE<br /></li>
 </ul></li>
 <li>Media tab: Turn off sound support and client printing</li>
 <li>Shared folders: If you want directories from your client machines mounted on the Linux VM, add the client machine directories that you want to share with the VM on this tab.</li>
@@ -277,6 +271,33 @@ $ git config --global user.name &quot;Your Name&quot;</code></pre>
 </ol>
 </div>
 
+<hr class="bb_hr"></hr>
+<div class="bottombar_container">
+  <div class="bottombar">
+    Copyright &copy; 2016 Conservation Science Partners, Inc. All rights reserved.
+  </div>
+</div>
+
+<style type="text/css">
+.bb_hr {
+  border: 0;
+  height: 1px;
+  background: #333;
+  background-image: linear-gradient(to right, #ccc, #333, #ccc);
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+.bottombar_container {
+  width:100%;
+  bottom:0px;
+  left:0px;
+}
+.bottombar {
+  /*border:1px solid blue;*/
+  color:#636363;
+
+}
+</style>
 
 
 
