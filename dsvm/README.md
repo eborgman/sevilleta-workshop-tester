@@ -1,27 +1,3 @@
-
-
-## x2goclient
-1. Download and install the X2Go client for your client platform from
-[X2Go](http://wiki.x2go.org/doku.php/doc:installation:x2goclient)
-2. Run the X2Go client, and select New Session
-  * Configuration parameters:  
-    - Host: 52.175.221.211  
-    - Login: User name on the Linux VM  
-    - SSH Port: Leave it at 22, the default value  
-    - Session Type: Change the value to XFCE  
-  * Media tab: Turn off sound support and client printing
-  * Shared folders: If you want directories from your client machines mounted on the Linux VM, add the client machine directories that you want to share with the VM on this tab.
-
-## Usage
-Download the workshop materials by running a Git clone on command line. For
-instance
-
-```$
-$ git clone https://github.com/lzachmann/sevilleta-workshop-tester.git workshop-materials
-```
-
-Search for RStudio in Application Finder (the magnifying glass in the system tray)
-
 ## Superuser notes
 ### Provision the Linux Data Science Virtual Machine
 <https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-data-science-linux-dsvm-intro>

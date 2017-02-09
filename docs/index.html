@@ -213,39 +213,18 @@ $(document).ready(function () {
 <li><a href="#option2">Configure everything yourself</a>.</li>
 </ol>
 <p>The first and <em>recommended</em> option entails connecting to a virtual machine (VM) that has been pre-configured with all of the necessary software. Alternatively, you can configure everything yourself (requires some know-how and might be a two-beer job), and run code, including demos, locally. Both options are described in more detail below.</p>
-<p>Before proceeding, please <a href="https://help.github.com/articles/fork-a-repo/">fork the repo</a>. You’ll use your fork of the repository to contribute data and code for analyses. Later on, I can pull your changes into the original repository/</p>
-<p><br></p>
+<p>Before proceeding, please <a href="https://help.github.com/articles/fork-a-repo/">fork the repo</a>. You’ll use your fork of the repository to contribute data and code for analyses. Later on, I can pull your changes into the original repository.</p>
 <div id="option1" class="section level4">
 <h4>Connect to the Azure DSVM</h4>
 <p>Use x2goclient to connect to a Linux Data Science Virtual Machine (DSVM). This virtual machine contains popular tools for data science and development activities. We’ve used a shared instances architecture for the DSVM. You’ll get the VM OS login credentials from us prior to the workshop.</p>
 <ol style="list-style-type: decimal">
-<li>Connect to the VM<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></li>
-<li><p>In Terminal, navigate to (and create, if necessary) your working directory. Especially if you’re using it as a scratch workspace, this directory can be placed <em>anywhere</em> in your home directory. For example:</p>
-<pre><code>$ mkdir sandbox</code></pre></li>
-<li><p><code>cd</code> to your working directory and download the workshop materials by running a Git clone on command line:</p>
-<pre><code>$ cd sandbox
-$ git clone https://github.com/lzachmann/sevilleta-workshop-tester.git .</code></pre></li>
-<li><p>Activate the conda environment (called ‘sev’):</p>
-<pre><code>$ source activate sev</code></pre></li>
-<li><p>Launch RStudio from inside this environment:</p>
-<pre><code>$ rstudio</code></pre></li>
-<li><p>Make changes to project materials as appropriate on your instance, and push to your fork of the repository.</p></li>
+<li>Connect to the VM. If you haven’t already done so, you’ll need to configure your x2goclient:</li>
 </ol>
-<p><br></p>
-</div>
-<div id="option2" class="section level4">
-<h4>Configure everything yourself</h4>
-<p>Here you’re on your own, but more power to you! A list of the known dependencies can be found in the <code>env.yml</code> file in the repo.</p>
-<p><br></p>
-</div>
-<div id="other-notes" class="section level4">
-<h4>Other notes</h4>
-<div id="x2goconfig" class="section level5">
-<h5>x2goclient configuration</h5>
-<ol style="list-style-type: decimal">
+<div class="alert alert-warning">
+<h5 id="configuring-x2go">Configuring X2Go</h5>
+<ul>
 <li>Download and install the X2Go client for your client platform from <a href="http://wiki.x2go.org/doku.php/doc:installation:x2goclient">X2Go</a></li>
-<li>Run the X2Go client, and select New Session</li>
-</ol>
+<li>Run the X2Go client, and select New Session
 <ul>
 <li>Configuration parameters:
 <ul>
@@ -260,21 +239,28 @@ $ git clone https://github.com/lzachmann/sevilleta-workshop-tester.git .</code><
 </ul></li>
 <li>Media tab: Turn off sound support and client printing</li>
 <li>Shared folders: If you want directories from your client machines mounted on the Linux VM, add the client machine directories that you want to share with the VM on this tab.</li>
+</ul></li>
 </ul>
 </div>
-<div id="git-config" class="section level5">
-<h5>Git config</h5>
-<p>If you’re going to commit anything to your fork of the repository, you’ll need to set your user name and email address.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>In Terminal, navigate to your home directory (if you launched Terminal from the system tray, you’re probably already there):</p>
+<pre><code>$ cd ~</code></pre></li>
+<li><p><code>cd</code> to the directory you’d like to place the repository within (e.g., your home, Downloads, or perhaps a Documents directory) and download the workshop materials by running a Git clone on command line:</p>
+<pre><code>$ git clone https://github.com/lzachmann/sevilleta-workshop-tester.git sandbox
+$ cd sandbox</code></pre></li>
+<li><p>Activate the conda environment (called ‘sev’):</p>
+<pre><code>$ source activate sev</code></pre></li>
+<li><p>Launch RStudio from inside this environment:</p>
+<pre><code>$ rstudio</code></pre></li>
+<li><p>Make changes to project materials as appropriate on your instance, and push to your fork of the repository. Note that if you’re going to commit anything to your fork of the repository, you’ll need to set your user name and email address:</p>
 <pre><code>$ git config --global user.email &quot;you@example.com&quot;
-$ git config --global user.name &quot;Your Name&quot;</code></pre>
-</div>
-</div>
-</div>
-<div class="footnotes">
-<hr />
-<ol>
-<li id="fn1"><p>If using x2goclient for the first time, please refer to the <a href="#x2goconfig">X2Go instructions</a> before proceeding.<a href="#fnref1">↩</a></p></li>
+$ git config --global user.name &quot;Your Name&quot;</code></pre></li>
 </ol>
+</div>
+<div id="option2" class="section level4">
+<h4>Configure everything yourself</h4>
+<p>Here you’re on your own, but more power to you! A list of the known dependencies can be found in the <code>env.yml</code> file in the repo.</p>
+</div>
 </div>
 
 

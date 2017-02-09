@@ -207,7 +207,6 @@ $(document).ready(function () {
 <ul>
 <li><a href="#no-design-weights-no-covariance-structure">No design weights | no covariance structure</a></li>
 <li><a href="#tbd.">TBD….</a><ul>
-<li><a href="#estimation-with-glm">Estimation with glm</a></li>
 <li><a href="#estimation-with-stan">Estimation with Stan</a></li>
 </ul></li>
 </ul>
@@ -217,7 +216,7 @@ $(document).ready(function () {
 <p>The following use cases were designed to illustrate Maximum Likelihood (ML) and Bayesian parameter estimation for data collected using a revisit design.</p>
 <div id="no-design-weights-no-covariance-structure" class="section level2">
 <h2>No design weights | no covariance structure</h2>
-<p>The examples below assume that errors are not correlated within nor between measures. We also ignore aspects of membership design and any specification of design weights.</p>
+<p>The examples below assume that errors are not correlated within nor between measures. We also ignore aspects of membership design and any specification of design weights. We use <code>glmer()</code> to obtain maximum likelihood estimates for the coefficients.</p>
 <div id="a-random-intercepts-model-for-a-normally-distributed-outcome" class="section level4">
 <h4>A random-intercepts model for a normally-distributed outcome</h4>
 <p>Let’s assume we’ve generated (and <em>downloaded</em>) revisit design data with the following structure: <span class="math inline">\([(1-0)^1, (2-3)^4]\)</span> with 5 and 7 units in panels 1 and 2, respectively, for a total 33 units visited between 2008 and 2016. The hyperparameters we invoked in simulating the (normally-distributed) outcome were: <span class="math inline">\(\sigma_{u_0}=1\)</span>, <span class="math inline">\(\beta_0=3\)</span>, <span class="math inline">\(\sigma_{\epsilon_0}=2\)</span>, and <span class="math inline">\(\beta_1=1.5\)</span>.</p>
@@ -226,7 +225,7 @@ library(ggplot2)
 library(lme4)
 
 
-csv_file &lt;- &#39;/Users/lukezachmann/Downloads/data-2017-02-01.csv&#39;  # UPDATE!
+csv_file &lt;- file.path(PROJ_ROOT, &#39;data&#39;, &#39;simulated&#39;, &#39;data-2017-02-01.csv&#39;)
 dat &lt;- read.csv(csv_file) %&gt;%
   mutate(group=interaction(panel, subpanel, unit)) %&gt;% 
   mutate(period=period-min(period))
@@ -278,7 +277,7 @@ lmer(y ~ period + (1|group), data=dat %&gt;% filter(is_sampled==1))</code></pre>
 </div>
 <div id="a-random-intercepts-model-for-a-poisson-distributed-outcome" class="section level4">
 <h4>A random-intercepts model for a Poisson-distributed outcome</h4>
-<pre class="r"><code>csv_file &lt;- &#39;/Users/lukezachmann/Downloads/data-2017-02-01-pois.csv&#39;  # UPDATE!
+<pre class="r"><code>csv_file &lt;- file.path(PROJ_ROOT, &#39;data&#39;, &#39;simulated&#39;, &#39;data-2017-02-01-pois.csv&#39;)
 dat &lt;- read.csv(csv_file) %&gt;%
   mutate(group=interaction(panel, subpanel, unit)) %&gt;% 
   mutate(period=period-min(period))
@@ -343,10 +342,6 @@ glmer(y ~ period + (1|group), data=dat %&gt;% filter(is_sampled==1), family=pois
 </div>
 <div id="tbd." class="section level2">
 <h2>TBD….</h2>
-<div id="estimation-with-glm" class="section level3">
-<h3>Estimation with glm</h3>
-<p>We can obtain maximum likelihood estimates for the coefficients, along with frequentist t-values and confidence intervals with the ??glmer function.</p>
-</div>
 <div id="estimation-with-stan" class="section level3">
 <h3>Estimation with Stan</h3>
 <p>Here is a Stan file that can be used to fit a Poisson glm without an offset.</p>
