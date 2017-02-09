@@ -20,7 +20,19 @@ knitr::opts_chunk$set(echo=FALSE, message=FALSE)
 knitr::read_chunk(file.path(PROJ_ROOT, 'map.R'))
 ```
 
-```{r}
-# Run the chunk.
-<<leaflet_map>>
-```
+<!-- ```{r} -->
+<!-- # Run the chunk. -->
+<!-- <<leaflet_map>> -->
+<!-- ``` -->
+
+## Survey design elements (Reynolds et al. 2012)
+### Membership design: how locations are selected
+#### Spatially-balanced sampling
+##### Balanced acceptance sampling (BAS; Robertson et al. 2013)
+[`SDraw`](https://github.com/tmcd82070/SDraw)
+
+##### Generalized random tessellation stratified (GRTS; Stevens and Olsen 2003, 2004)
+[`spsurvey`](https://github.com/cran/spsurvey) 
+
+### Response design: what to measure and how
+### Revisit design: schedule for visiting locations

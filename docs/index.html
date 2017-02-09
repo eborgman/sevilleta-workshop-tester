@@ -205,26 +205,75 @@ $(document).ready(function () {
 
 
 <p>National Park Service (NPS) Inventory and Monitoring (I&amp;M) networks are charged with implementing a long-term ecological monitoring program to assess status and trends in the condition of natural resources across NPS units. This website summarizes the support provided by CSP through several use cases involving models specified to both simulated and actual I&amp;M datasets.</p>
-<div id="dependencies" class="section level4">
-<h4>Dependencies</h4>
-<p>Stepping through the examples provided in the ‘Use cases’ pages will require <a href="https://www.r-project.org">R</a> and the following R packages:</p>
-<ul>
-<li><a href="https://github.com/hadley/dplyr"><code>dplyr</code></a></li>
-<li><a href="https://github.com/lme4/lme4"><code>lme4</code></a></li>
-<li><a href="https://github.com/tidyverse/ggplot2"><code>ggplot2</code></a></li>
-</ul>
-<p>And optionally:</p>
-<ul>
-<li><a href="https://github.com/stan-dev/rstan"><code>rstan</code></a></li>
-<li><a href="https://github.com/rstudio/leaflet"><code>leaflet</code></a></li>
-<li><a href="https://github.com/edzer/sfr"><code>sf</code></a></li>
-</ul>
-<p>Alternatively, you can connect to a Microsoft Azure virtual machine (VM) image pre-installed and configured with all dependencies here.</p>
+<div id="hands-on-analysis" class="section level3">
+<h3>Hands-on analysis</h3>
+<p>The materials stored within the <a href="https://github.com/lzachmann/sevilleta-workshop-tester">GitHub repo</a> for the workshop are accessible by two means:</p>
+<ol style="list-style-type: decimal">
+<li><a href="#option1">Connect to the Azure DSVM</a>; or</li>
+<li><a href="#option2">Configure everything yourself</a>.</li>
+</ol>
+<p>The first and <em>recommended</em> option entails connecting to a virtual machine (VM) that has been pre-configured with all of the necessary software. Alternatively, you can configure everything yourself (requires some know-how and might be a two-beer job), and run code, including demos, locally. Both options are described in more detail below.</p>
+<p><br></p>
+<div id="option1" class="section level4">
+<h4>Connect to the Azure DSVM</h4>
+<p>Use x2goclient to connect to a Linux Data Science Virtual Machine (DSVM). This virtual machine contains popular tools for data science and development activities. We’ve used a shared instances architecture for the DSVM. You’ll get the VM OS login credentials from us prior to the workshop.</p>
+<ol style="list-style-type: decimal">
+<li>Connect to the VM<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></li>
+<li><p>Navigate to (and create, if necessary) your working directory. For example:</p>
+<pre><code>$ mkdir sandbox</code></pre></li>
+<li><p><code>cd</code> to your working directory and activate the conda environment (called ‘sev’):</p>
+<pre><code>$ cd sandbox
+$ source activate sev</code></pre></li>
+<li><p>Download the workshop materials by running a Git clone on command line:</p>
+<pre><code>$ git clone https://github.com/lzachmann/sevilleta-workshop-tester.git .</code></pre></li>
+<li><p>Launch RStudio from inside this environment:</p>
+<pre><code>$ rstudio</code></pre></li>
+<li><p>Make changes to project materials as appropriate on your instance, and push to your fork of the repository.</p></li>
+</ol>
+<p><br></p>
 </div>
-<div id="other-relevant-r-packages" class="section level4">
-<h4>Other relevant R packages</h4>
-<p><a href="https://github.com/cran/spsurvey"><code>spsurvey</code></a><br />
-<a href="https://github.com/tmcd82070/SDrawNPS"><code>SDrawNPS</code></a></p>
+<div id="option2" class="section level4">
+<h4>Configure everything yourself</h4>
+<p>Here you’re on your own, but more power to you! A list of the known dependencies can be found in the <code>env.yml</code> file in the repo.</p>
+<p><br></p>
+</div>
+<div id="other-notes" class="section level4">
+<h4>Other notes</h4>
+<div id="x2goconfig" class="section level5">
+<h5>x2goclient configuration</h5>
+<ol style="list-style-type: decimal">
+<li>Download and install the X2Go client for your client platform from <a href="http://wiki.x2go.org/doku.php/doc:installation:x2goclient">X2Go</a></li>
+<li>Run the X2Go client, and select New Session</li>
+</ol>
+<ul>
+<li>Configuration parameters:
+<ul>
+<li>Host: 52.175.221.211<br />
+</li>
+<li>Login: User name on the Linux VM<br />
+</li>
+<li>SSH Port: Leave it at 22, the default value<br />
+</li>
+<li>Session Type: Change the value to XFCE<br />
+</li>
+</ul></li>
+<li>Media tab: Turn off sound support and client printing</li>
+<li>Shared folders: If you want directories from your client machines mounted on the Linux VM, add the client machine directories that you want to share with the VM on this tab.</li>
+</ul>
+</div>
+<div id="git-config" class="section level5">
+<h5>Git config</h5>
+<p>If you’re going to commit anything to the repository, you’ll need a GitHub account.</p>
+<pre><code>git config --global user.email &quot;you@example.com&quot;
+git config --global user.name &quot;Your Name&quot;</code></pre>
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>If using x2goclient for the first time, please refer to the <a href="#x2goconfig">X2Go instructions</a> before proceeding.<a href="#fnref1">↩</a></p></li>
+</ol>
 </div>
 
 

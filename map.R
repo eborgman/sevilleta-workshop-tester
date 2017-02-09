@@ -28,7 +28,7 @@ overlay_pal <- colorFactor(
 leaflet(width='100%') %>%
   addTiles(urlTemplate=mapbox_light_template) %>%
   addPolygons(data=as(leaflet_overlay, 'Spatial'),
-              stroke=TRUE, weight=3, opacity=1,  fillOpacity=.2,
+              stroke=TRUE, weight=3, opacity=1, fillOpacity=.2,
               color=~overlay_pal(network_name),
               fillColor= ~overlay_pal(network_name),
               popup=~UNIT_NAME) %>%
