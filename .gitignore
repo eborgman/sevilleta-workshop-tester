@@ -2,3 +2,6 @@
 .Rhistory
 **/rd-emulator/rsconnect/
 template.zip
+maps/*
+!maps/.gitkeep
+.httr-oauth

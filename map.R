@@ -3,8 +3,11 @@
 library(dplyr)
 library(sf)
 library(leaflet)
+library(htmlwidgets)
+library(rdrop2)
 
 
+update_index = FALSE
 ancillaries_dir <- file.path(PROJ_ROOT, 'ancillaries')
 
 parks <-
@@ -25,7 +28,7 @@ overlay_pal <- colorFactor(
   palette=RColorBrewer::brewer.pal(5, 'Set1'),
   domain=leaflet_overlay$network_name
 )
-leaflet(width='100%') %>%
+m <- leaflet() %>%
   addTiles(urlTemplate=mapbox_light_template) %>%
   addPolygons(data=as(leaflet_overlay, 'Spatial'),
               stroke=TRUE, weight=3, opacity=1, fillOpacity=.2,
@@ -36,3 +39,8 @@ leaflet(width='100%') %>%
   addLegend(position='topright', title='Network', opacity=0.8, pal=overlay_pal,
             values=leaflet_overlay$network_name
   )
+m
+if(update_index) {
+  saveWidget(m, file=file.path(PROJ_ROOT, 'maps', 'index.html'))
+  drop_upload(file.path(PROJ_ROOT, 'maps', 'index.html'), dest = 'public/sev_leaflet_map')
+}

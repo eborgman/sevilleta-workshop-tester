@@ -206,7 +206,10 @@ $(document).ready(function () {
 <div id="TOC">
 <ul>
 <li><a href="#no-design-weights-no-covariance-structure">No design weights | no covariance structure</a></li>
-<li><a href="#tbd.">TBD….</a></li>
+<li><a href="#tbd.">TBD….</a><ul>
+<li><a href="#estimation-with-glm">Estimation with glm</a></li>
+<li><a href="#estimation-with-stan">Estimation with Stan</a></li>
+</ul></li>
 </ul>
 </div>
 
@@ -272,11 +275,82 @@ lmer(y ~ period + (1|group), data=dat %&gt;% filter(is_sampled==1))</code></pre>
 ## Fixed Effects:
 ## (Intercept)       period  
 ##       3.200        1.462</code></pre>
+</div>
+<div id="a-random-intercepts-model-for-a-poisson-distributed-outcome" class="section level4">
+<h4>A random-intercepts model for a Poisson-distributed outcome</h4>
+<pre class="r"><code>csv_file &lt;- &#39;/Users/lukezachmann/Downloads/data-2017-02-01-pois.csv&#39;  # UPDATE!
+dat &lt;- read.csv(csv_file) %&gt;%
+  mutate(group=interaction(panel, subpanel, unit)) %&gt;% 
+  mutate(period=period-min(period))
+
+p &lt;- ggplot(dat %&gt;% filter(is_sampled==1)) +
+      geom_line(aes(x=period, y=y, group=interaction(panel, subpanel, unit),
+                color=factor(panel))) +
+   scale_color_brewer(&#39;Panel&#39;, type=&#39;qual&#39;, palette=&#39;Set1&#39;) +
+  labs(x=&#39;Years elapsed since the first sampling event&#39;, y=&#39;Simulated outcome&#39;)</code></pre>
+<br>
+<center>
+<div style="width:60%;">
+</p>
+<img src="use-cases_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+<p style="text-align: justify; font-size:90%; width:100%;">
+<strong>Figure 1. Simulated data.</strong>
+</p>
+</div>
+</center>
+<p><br></p>
+<pre class="r"><code># Complete (non-rotating) observations.
+glmer(y ~ period + (1|group), data=dat, family=poisson)</code></pre>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model is nearly unidentifiable: very large eigenvalue
+##  - Rescale variables?;Model is nearly unidentifiable: large eigenvalue ratio
+##  - Rescale variables?</code></pre>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: poisson  ( log )
+## Formula: y ~ period + (1 | group)
+##    Data: dat
+##       AIC       BIC    logLik  deviance  df.resid 
+##  4835.614  4847.273 -2414.807  4829.614       357 
+## Random effects:
+##  Groups Name        Std.Dev.
+##  group  (Intercept) 0.8864  
+## Number of obs: 360, groups:  group, 40
+## Fixed Effects:
+## (Intercept)       period  
+##       3.045        1.500  
+## convergence code 0; 2 optimizer warnings; 0 lme4 warnings</code></pre>
+<pre class="r"><code># Incomplete (rotating) observations
+glmer(y ~ period + (1|group), data=dat %&gt;% filter(is_sampled==1), family=poisson)</code></pre>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model is nearly unidentifiable: very large eigenvalue
+##  - Rescale variables?</code></pre>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: poisson  ( log )
+## Formula: y ~ period + (1 | group)
+##    Data: dat %&gt;% filter(is_sampled == 1)
+##       AIC       BIC    logLik  deviance  df.resid 
+##  2558.807  2568.232 -1276.404  2552.807       168 
+## Random effects:
+##  Groups Name        Std.Dev.
+##  group  (Intercept) 0.8864  
+## Number of obs: 171, groups:  group, 40
+## Fixed Effects:
+## (Intercept)       period  
+##       3.046        1.500  
+## convergence code 0; 1 optimizer warnings; 0 lme4 warnings</code></pre>
 <!-- # More involved cases -->
 </div>
 </div>
 <div id="tbd." class="section level2">
 <h2>TBD….</h2>
+<div id="estimation-with-glm" class="section level3">
+<h3>Estimation with glm</h3>
+<p>We can obtain maximum likelihood estimates for the coefficients, along with frequentist t-values and confidence intervals with the ??glmer function.</p>
+</div>
+<div id="estimation-with-stan" class="section level3">
+<h3>Estimation with Stan</h3>
+<p>Here is a Stan file that can be used to fit a Poisson glm without an offset.</p>
+</div>
 </div>
 
 
