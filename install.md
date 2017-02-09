@@ -1,4 +1,8 @@
-# To install R packages and their dependencies, plus other misc
+## To activate installed environment on azure VM
 
-1. Install conda
-2. `conda env create -f env.yml`
+    source activate sev
+
+
+## To install R packages and their dependencies, plus other misc
+
+    conda env create -f env.yml
