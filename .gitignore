@@ -5,4 +5,5 @@ template.zip
 maps/*
 !maps/.gitkeep
 .httr-oauth
-*.ipynb
+.ipynb_checkpoints
+
