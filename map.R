@@ -20,8 +20,6 @@ leaflet_overlay <- unit_boundaries %>%
   left_join(parks, by=c('UNIT_CODE'='park_code')) %>%
   left_join(networks, by='network_code')
 
-mapbox_light_template <-
-  'https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibHphY2htYW5uIiwiYSI6ImNpcW1oODczZTAwcjBnc2pmaGRhYjVudHIifQ.LeGAHvHXv36-vorTmuNtSg'
 overlay_pal <- colorFactor(
   palette=RColorBrewer::brewer.pal(5, 'Set1'),
   domain=leaflet_overlay$network_name
