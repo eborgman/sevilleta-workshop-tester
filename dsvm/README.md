@@ -18,11 +18,8 @@ echo user$u, $p >> 'usersinfo.csv'
 done
 ```
 
+Then, from Terminal, run
 ```
-chmod 700 ~/path/to/login_accounts.sh
-```
-
-Then, in Terminal, type
-```
+$ chmod 700 ~/path/to/login_accounts.sh
 $ sudo ~/path/to/login_accounts.sh
 ```
