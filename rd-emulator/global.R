@@ -77,7 +77,6 @@ sim_data_using_hyperparams <- function(input, data) {
 
   n <- nrow(design_framework)
   unit_reps <- unit_reps_summary %>% .[['n']]
-  # browser()
 
   # Set seed for replicability.
   # set.seed(123)
@@ -96,15 +95,24 @@ sim_data_using_hyperparams <- function(input, data) {
   # Population slope.
   beta_1   <- input[['hyperparamInput-beta_1']]
   # Outcome.
-  # Y_ij     <- beta_0j + beta_1*X_1ij + e_0ij
-  # browser()
   if (input$dist=='norm') {
-    Y_ij     <- rnorm(n, beta_0j + beta_1*X_1ij, sigma)
+    y_ij     <- rnorm(n, beta_0j + beta_1*X_1ij, sigma)
   } else if (input$dist=='lnorm') {
-    Y_ij     <- rlnorm(n, exp(beta_0j + beta_1*X_1ij), sigma)
+    y_ij     <- rlnorm(n, exp(beta_0j + beta_1*X_1ij), sigma)
   } else if (input$dist=='pois') {
-    Y_ij     <- rpois(n, exp(beta_0j + beta_1*X_1ij))
+    y_ij     <- rpois(n, exp(beta_0j + beta_1*X_1ij))
+  } else if (input$dist=='binom') {
+    y_ij     <- rbinom(n, 100, inv_logit(beta_0j + beta_1*X_1ij))
   }
 
-  design_framework %>% mutate(y=Y_ij)
+  design_framework %>% mutate(y=y_ij)
 }
+
+logit <- function(p) {
+  log(p / (1 - p))
+}
+
+inv_logit <- function(x) {
+  1 / (1 + exp(-x))
+}
+

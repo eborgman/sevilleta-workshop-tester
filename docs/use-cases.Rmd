@@ -18,7 +18,7 @@ Let's assume we've generated (and _downloaded_) revisit design data with the
 following structure: $[(1-0)^1, (2-3)^4]$ with 5 and 7 units in panels 1 and 2, 
 respectively, for a total 33 units visited between 2008 and 2016. The 
 hyperparameters we invoked in simulating the (normally-distributed) outcome 
-were: $\sigma_{u_0}=1$, $\beta_0=3$, $\sigma_{\epsilon_0}=2$, and $\beta_1=1.5$.
+were: $\sigma_{u_0}=1$, $\beta_0=3$, $\sigma=2$, and $\beta_1=1.5$.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo=TRUE, message=FALSE)
@@ -32,8 +32,8 @@ library(lme4)
 
 csv_file <- file.path(PROJ_ROOT, 'data', 'simulated', 'data-2017-02-01.csv')
 dat <- read.csv(csv_file) %>%
-  mutate(group=interaction(panel, subpanel, unit)) %>% 
-  mutate(period=period-min(period))
+  mutate(group=interaction(panel, subpanel, unit),
+         period=period-min(period))
 
 p <- ggplot(dat %>% filter(is_sampled==1)) +
       geom_line(aes(x=period, y=y, group=interaction(panel, subpanel, unit),
@@ -47,7 +47,7 @@ p <- ggplot(dat %>% filter(is_sampled==1)) +
 p
 ```
 <p style="text-align: justify; font-size:90%; width:100%;">
-__Figure 1. Simulated data.__</p></div></center><br>
+__Figure 1. Simulated normal data.__</p></div></center><br>
 
 
 ```{r}
@@ -60,11 +60,16 @@ lmer(y ~ period + (1|group), data=dat %>% filter(is_sampled==1))
 
 
 #### A random-intercepts model for a Poisson-distributed outcome
+Assume revisit design data with the 
+following structure: $[(1-0)^1, (2-3)^4]$ with 5 and 7 units in panels 1 and 2, 
+respectively, for a total 33 units visited between 2008 and 2016. The 
+hyperparameters we invoked in simulating the (normally-distributed) outcome 
+were: $\sigma_{u_0}=0.6$, $\beta_0=2$, and $\beta_1=-0.4$.
 ```{r}
-csv_file <- file.path(PROJ_ROOT, 'data', 'simulated', 'data-2017-02-01-pois.csv')
+csv_file <- file.path(PROJ_ROOT, 'data', 'simulated', 'data-2017-02-12-pois.csv')
 dat <- read.csv(csv_file) %>%
-  mutate(group=interaction(panel, subpanel, unit)) %>% 
-  mutate(period=period-min(period))
+  mutate(group=interaction(panel, subpanel, unit),
+         period=period-min(period))
 
 p <- ggplot(dat %>% filter(is_sampled==1)) +
       geom_line(aes(x=period, y=y, group=interaction(panel, subpanel, unit),
@@ -78,7 +83,7 @@ p <- ggplot(dat %>% filter(is_sampled==1)) +
 p
 ```
 <p style="text-align: justify; font-size:90%; width:100%;">
-__Figure 1. Simulated data.__</p></div></center><br>
+__Figure 2. Simulated Poisson data.__</p></div></center><br>
 
 
 ```{r}
@@ -87,6 +92,43 @@ glmer(y ~ period + (1|group), data=dat, family=poisson)
 
 # Incomplete (rotating) observations
 glmer(y ~ period + (1|group), data=dat %>% filter(is_sampled==1), family=poisson)
+```
+
+#### A random-intercepts model for a binomially-distributed outcome
+Assume revisit design data with the 
+following structure: $[(1-0)^1, (2-3)^4]$ with 5 and 7 units in panels 1 and 2, 
+respectively, for a total 33 units visited between 2008 and 2016. The 
+hyperparameters we invoked in simulating the (normally-distributed) outcome 
+were: $\sigma_{u_0}=0.1$, $\beta_0=0.25$, and $\beta_1=-0.5$.
+```{r}
+csv_file <- file.path(PROJ_ROOT, 'data', 'simulated', 'data-2017-02-12-binom.csv')
+dat <- read.csv(csv_file) %>%
+  mutate(group=interaction(panel, subpanel, unit),
+         period=period-min(period),
+         y_prop=y/100)  # success/trials, where trials=100
+
+p <- ggplot(dat %>% filter(is_sampled==1)) +
+      geom_line(aes(x=period, y=y, group=interaction(panel, subpanel, unit),
+                color=factor(panel))) +
+   scale_color_brewer('Panel', type='qual', palette='Set1') +
+  labs(x='Years elapsed since the first sampling event', y='Simulated outcome')
+```
+
+<br><center><div style="width:60%;"></p>
+```{r, echo=FALSE}
+p
+```
+<p style="text-align: justify; font-size:90%; width:100%;">
+__Figure 3. Simulated binomial data.__</p></div></center><br>
+
+
+```{r}
+# Complete (non-rotating) observations.
+glmer(y_prop ~ period + (1|group), data=dat, family=binomial, weights=rep(100, nrow(dat)))
+
+# Incomplete (rotating) observations
+filtered_dat <- dat %>% filter(is_sampled==1)
+glmer(y_prop ~ period + (1|group), data=filtered_dat, family=binomial, , weights=rep(100, nrow(filtered_dat)))
 ```
 
 

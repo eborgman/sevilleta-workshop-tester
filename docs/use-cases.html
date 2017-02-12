@@ -183,6 +183,9 @@ $(document).ready(function () {
   <a href="about.html">About</a>
 </li>
 <li>
+  <a href="use-cases.html">Use cases</a>
+</li>
+<li>
   <a href="simulator.html">Simulator</a>
 </li>
       </ul>
@@ -217,7 +220,7 @@ $(document).ready(function () {
 <p>The examples below assume that errors are not correlated within nor between measures. We also ignore aspects of membership design and any specification of design weights. We use <code>glmer()</code> to obtain maximum likelihood estimates for the coefficients.</p>
 <div id="a-random-intercepts-model-for-a-normally-distributed-outcome" class="section level4">
 <h4>A random-intercepts model for a normally-distributed outcome</h4>
-<p>Let’s assume we’ve generated (and <em>downloaded</em>) revisit design data with the following structure: <span class="math inline">\([(1-0)^1, (2-3)^4]\)</span> with 5 and 7 units in panels 1 and 2, respectively, for a total 33 units visited between 2008 and 2016. The hyperparameters we invoked in simulating the (normally-distributed) outcome were: <span class="math inline">\(\sigma_{u_0}=1\)</span>, <span class="math inline">\(\beta_0=3\)</span>, <span class="math inline">\(\sigma_{\epsilon_0}=2\)</span>, and <span class="math inline">\(\beta_1=1.5\)</span>.</p>
+<p>Let’s assume we’ve generated (and <em>downloaded</em>) revisit design data with the following structure: <span class="math inline">\([(1-0)^1, (2-3)^4]\)</span> with 5 and 7 units in panels 1 and 2, respectively, for a total 33 units visited between 2008 and 2016. The hyperparameters we invoked in simulating the (normally-distributed) outcome were: <span class="math inline">\(\sigma_{u_0}=1\)</span>, <span class="math inline">\(\beta_0=3\)</span>, <span class="math inline">\(\sigma=2\)</span>, and <span class="math inline">\(\beta_1=1.5\)</span>.</p>
 <pre class="r"><code>library(dplyr)
 library(ggplot2)
 library(lme4)
@@ -225,8 +228,8 @@ library(lme4)
 
 csv_file &lt;- file.path(PROJ_ROOT, &#39;data&#39;, &#39;simulated&#39;, &#39;data-2017-02-01.csv&#39;)
 dat &lt;- read.csv(csv_file) %&gt;%
-  mutate(group=interaction(panel, subpanel, unit)) %&gt;% 
-  mutate(period=period-min(period))
+  mutate(group=interaction(panel, subpanel, unit),
+         period=period-min(period))
 
 p &lt;- ggplot(dat %&gt;% filter(is_sampled==1)) +
       geom_line(aes(x=period, y=y, group=interaction(panel, subpanel, unit),
@@ -239,7 +242,7 @@ p &lt;- ggplot(dat %&gt;% filter(is_sampled==1)) +
 </p>
 <img src="use-cases_files/figure-html/unnamed-chunk-2-1.png" width="672" />
 <p style="text-align: justify; font-size:90%; width:100%;">
-<strong>Figure 1. Simulated data.</strong>
+<strong>Figure 1. Simulated normal data.</strong>
 </p>
 </div>
 </center>
@@ -275,10 +278,11 @@ lmer(y ~ period + (1|group), data=dat %&gt;% filter(is_sampled==1))</code></pre>
 </div>
 <div id="a-random-intercepts-model-for-a-poisson-distributed-outcome" class="section level4">
 <h4>A random-intercepts model for a Poisson-distributed outcome</h4>
-<pre class="r"><code>csv_file &lt;- file.path(PROJ_ROOT, &#39;data&#39;, &#39;simulated&#39;, &#39;data-2017-02-01-pois.csv&#39;)
+<p>Assume revisit design data with the following structure: <span class="math inline">\([(1-0)^1, (2-3)^4]\)</span> with 5 and 7 units in panels 1 and 2, respectively, for a total 33 units visited between 2008 and 2016. The hyperparameters we invoked in simulating the (normally-distributed) outcome were: <span class="math inline">\(\sigma_{u_0}=0.6\)</span>, <span class="math inline">\(\beta_0=2\)</span>, and <span class="math inline">\(\beta_1=-0.4\)</span>.</p>
+<pre class="r"><code>csv_file &lt;- file.path(PROJ_ROOT, &#39;data&#39;, &#39;simulated&#39;, &#39;data-2017-02-12-pois.csv&#39;)
 dat &lt;- read.csv(csv_file) %&gt;%
-  mutate(group=interaction(panel, subpanel, unit)) %&gt;% 
-  mutate(period=period-min(period))
+  mutate(group=interaction(panel, subpanel, unit),
+         period=period-min(period))
 
 p &lt;- ggplot(dat %&gt;% filter(is_sampled==1)) +
       geom_line(aes(x=period, y=y, group=interaction(panel, subpanel, unit),
@@ -291,50 +295,104 @@ p &lt;- ggplot(dat %&gt;% filter(is_sampled==1)) +
 </p>
 <img src="use-cases_files/figure-html/unnamed-chunk-5-1.png" width="672" />
 <p style="text-align: justify; font-size:90%; width:100%;">
-<strong>Figure 1. Simulated data.</strong>
+<strong>Figure 2. Simulated Poisson data.</strong>
 </p>
 </div>
 </center>
 <p><br></p>
 <pre class="r"><code># Complete (non-rotating) observations.
 glmer(y ~ period + (1|group), data=dat, family=poisson)</code></pre>
-<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model is nearly unidentifiable: very large eigenvalue
-##  - Rescale variables?;Model is nearly unidentifiable: large eigenvalue ratio
-##  - Rescale variables?</code></pre>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
 ##  Family: poisson  ( log )
 ## Formula: y ~ period + (1 | group)
 ##    Data: dat
 ##       AIC       BIC    logLik  deviance  df.resid 
-##  4835.614  4847.273 -2414.807  4829.614       357 
+##  967.1365  978.2177 -480.5682  961.1365       294 
 ## Random effects:
 ##  Groups Name        Std.Dev.
-##  group  (Intercept) 0.8864  
-## Number of obs: 360, groups:  group, 40
+##  group  (Intercept) 0.5206  
+## Number of obs: 297, groups:  group, 33
 ## Fixed Effects:
 ## (Intercept)       period  
-##       3.045        1.500  
-## convergence code 0; 2 optimizer warnings; 0 lme4 warnings</code></pre>
+##       2.072       -0.430</code></pre>
 <pre class="r"><code># Incomplete (rotating) observations
 glmer(y ~ period + (1|group), data=dat %&gt;% filter(is_sampled==1), family=poisson)</code></pre>
-<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model is nearly unidentifiable: very large eigenvalue
-##  - Rescale variables?</code></pre>
 <pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
 ##   Approximation) [glmerMod]
 ##  Family: poisson  ( log )
 ## Formula: y ~ period + (1 | group)
 ##    Data: dat %&gt;% filter(is_sampled == 1)
 ##       AIC       BIC    logLik  deviance  df.resid 
-##  2558.807  2568.232 -1276.404  2552.807       168 
+##  496.0565  505.0884 -245.0283  490.0565       147 
 ## Random effects:
 ##  Groups Name        Std.Dev.
-##  group  (Intercept) 0.8864  
-## Number of obs: 171, groups:  group, 40
+##  group  (Intercept) 0.5327  
+## Number of obs: 150, groups:  group, 33
 ## Fixed Effects:
 ## (Intercept)       period  
-##       3.046        1.500  
-## convergence code 0; 1 optimizer warnings; 0 lme4 warnings</code></pre>
+##      2.1047      -0.4477</code></pre>
+</div>
+<div id="a-random-intercepts-model-for-a-binomially-distributed-outcome" class="section level4">
+<h4>A random-intercepts model for a binomially-distributed outcome</h4>
+<p>Assume revisit design data with the following structure: <span class="math inline">\([(1-0)^1, (2-3)^4]\)</span> with 5 and 7 units in panels 1 and 2, respectively, for a total 33 units visited between 2008 and 2016. The hyperparameters we invoked in simulating the (normally-distributed) outcome were: <span class="math inline">\(\sigma_{u_0}=0.1\)</span>, <span class="math inline">\(\beta_0=0.25\)</span>, and <span class="math inline">\(\beta_1=-0.5\)</span>.</p>
+<pre class="r"><code>csv_file &lt;- file.path(PROJ_ROOT, &#39;data&#39;, &#39;simulated&#39;, &#39;data-2017-02-12-binom.csv&#39;)
+dat &lt;- read.csv(csv_file) %&gt;%
+  mutate(group=interaction(panel, subpanel, unit),
+         period=period-min(period),
+         y_prop=y/100)  # success/trials, where trials=100
+
+p &lt;- ggplot(dat %&gt;% filter(is_sampled==1)) +
+      geom_line(aes(x=period, y=y, group=interaction(panel, subpanel, unit),
+                color=factor(panel))) +
+   scale_color_brewer(&#39;Panel&#39;, type=&#39;qual&#39;, palette=&#39;Set1&#39;) +
+  labs(x=&#39;Years elapsed since the first sampling event&#39;, y=&#39;Simulated outcome&#39;)</code></pre>
+<br>
+<center>
+<div style="width:60%;">
+</p>
+<img src="use-cases_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+<p style="text-align: justify; font-size:90%; width:100%;">
+<strong>Figure 3. Simulated binomial data.</strong>
+</p>
+</div>
+</center>
+<p><br></p>
+<pre class="r"><code># Complete (non-rotating) observations.
+glmer(y_prop ~ period + (1|group), data=dat, family=binomial, weights=rep(100, nrow(dat)))</code></pre>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: binomial  ( logit )
+## Formula: y_prop ~ period + (1 | group)
+##    Data: dat
+## Weights: rep(100, nrow(dat))
+##       AIC       BIC    logLik  deviance  df.resid 
+## 1566.8435 1577.9247 -780.4218 1560.8435       294 
+## Random effects:
+##  Groups Name        Std.Dev.
+##  group  (Intercept) 0.09705 
+## Number of obs: 297, groups:  group, 33
+## Fixed Effects:
+## (Intercept)       period  
+##      0.2505      -0.5053</code></pre>
+<pre class="r"><code># Incomplete (rotating) observations
+filtered_dat &lt;- dat %&gt;% filter(is_sampled==1)
+glmer(y_prop ~ period + (1|group), data=filtered_dat, family=binomial, , weights=rep(100, nrow(filtered_dat)))</code></pre>
+<pre><code>## Generalized linear mixed model fit by maximum likelihood (Laplace
+##   Approximation) [glmerMod]
+##  Family: binomial  ( logit )
+## Formula: y_prop ~ period + (1 | group)
+##    Data: filtered_dat
+## Weights: rep(100, nrow(filtered_dat))
+##       AIC       BIC    logLik  deviance  df.resid 
+##  784.6871  793.7190 -389.3435  778.6871       147 
+## Random effects:
+##  Groups Name        Std.Dev.
+##  group  (Intercept) 0.0799  
+## Number of obs: 150, groups:  group, 33
+## Fixed Effects:
+## (Intercept)       period  
+##      0.2567      -0.4968</code></pre>
 <!-- # More involved cases -->
 </div>
 </div>
@@ -349,7 +407,7 @@ glmer(y ~ period + (1|group), data=dat %&gt;% filter(is_sampled==1), family=pois
 <hr class="bb_hr"></hr>
 <div class="bottombar_container">
   <div class="bottombar">
-    Copyright &copy; 2016 Conservation Science Partners, Inc. All rights reserved.
+    Copyright &copy; 2017 Conservation Science Partners, Inc. All rights reserved.
   </div>
 </div>
 

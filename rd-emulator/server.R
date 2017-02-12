@@ -2,6 +2,7 @@ library(shiny)
 library(dplyr)
 library(stringr)
 library(ggplot2)
+library(lme4)
 
 
 function(input, output) {
@@ -11,9 +12,8 @@ function(input, output) {
                    norm=rnorm,
                    lnorm=rlnorm,
                    pois=rpois,
-                   # binom=rbinom,
+                   binom=rbinom,
                    rnorm)
-    # dist(input$n)  # use design_framework object
   })
 
   observeEvent(input$addInput, {
@@ -54,25 +54,34 @@ function(input, output) {
   output$test_this <- renderUI({
     if(input$dist=='norm') {
       eq <- withMathJax("$$\\begin{align}
-                        Y_{ij} &\\sim N(\\beta_{0 j}+\\beta_1X_{1ij}, \\sigma^2) \\\\
+                        y_{ij} &\\sim N(\\beta_{0 j}+\\beta_1X_{1ij}, \\sigma^2) \\\\
                         \\beta_{0j}&=\\beta_{0}+u_{0j} \\\\
                         u_{0j}&=N(0, \\sigma^2_{u_0}) \\\\
                         \\end{align}$$")
     } else if (input$dist=='lnorm') {
       eq <- withMathJax("$$\\begin{align}
-                        Y_{ij} &\\sim lognormal(\\beta_{0 j}+\\beta_1X_{1ij}, \\sigma^2) \\\\
+                        y_{ij} &\\sim lognormal(\\beta_{0 j}+\\beta_1X_{1ij}, \\sigma^2) \\\\
                         \\beta_{0j}&=\\beta_{0}+u_{0j} \\\\
                         u_{0j}&=N(0, \\sigma^2_{u_0}) \\\\
                         \\end{align}$$")
     } else if (input$dist=='pois') {
       eq <- withMathJax("$$\\begin{align}
-                        Y_{ij} &\\sim Poisson(\\lambda) \\\\
+                        y_{ij} &\\sim Poisson(\\lambda) \\\\
                         log(\\lambda)&=\\beta_{0 j}+\\beta_1X_{1ij} \\\\
+                        \\beta_{0j}&=\\beta_{0}+u_{0j} \\\\
+                        u_{0j}&=N(0, \\sigma^2_{u_0}) \\\\
+                        \\end{align}$$")
+    } else if (input$dist=='binom') {
+      # browser()
+      eq <- withMathJax("$$\\begin{align}
+                        y_{ij} &\\sim binomial(z_{ij}, \\phi) \\\\
+                        logit(\\phi)&=\\beta_{0 j}+\\beta_1X_{1ij} \\\\
                         \\beta_{0j}&=\\beta_{0}+u_{0j} \\\\
                         u_{0j}&=N(0, \\sigma^2_{u_0}) \\\\
                         \\end{align}$$")
     }
     tagList(
+      # browser()
       eq,
       hyperparameterInput(input, 'hyperparamInput')
     )
@@ -101,10 +110,10 @@ function(input, output) {
                       renderPlot({
                p1 <- ggplot(sim_df_filtered) +
                  geom_histogram(aes(x=y), color='black', fill='white') +
-                 labs(x=expression(italic(Y)[ij]), y='Frequency')
+                 labs(x=expression(italic(y)[ij]), y='Frequency')
                p2 <- ggplot(sim_df_filtered) +
                  geom_point(aes(x=period, y=y), alpha=0.5) +
-                 labs(x='Period', y=expression(italic(Y)[ij]))
+                 labs(x='Period', y=expression(italic(y)[ij]))
                gridExtra::grid.arrange(p1, p2, ncol=1)
              }))
 
@@ -112,48 +121,48 @@ function(input, output) {
     )
   })
 
-  output$analysis <- renderUI({
-    rep_analysis <- function(n, data) {
-      sim_data_using_hyperparams(input, data)
-    }
-    dat <- simulated_data()$sim_df_full %>%
-      mutate(group=interaction(panel, subpanel, unit)) %>%
-      mutate(period=period-min(period))
-    m <- glmer(y ~ period + (1|group), data=dat, family='gaussian')
-    # browser()
-    tmp <- lapply(seq_len(50), rep_analysis,  #
-           data=core_panel_data()$df) #
-    tmp_out <- lapply(tmp, function(x) {
-      x <- x %>%
-        mutate(group=interaction(panel, subpanel, unit)) %>%
-        mutate(period=period-min(period))
-      m1 <- update(m, data=x)
-      betas <- summary(m1)$coefficients %>% as.data.frame %>% .[['Estimate']]
-      sigmas <- VarCorr(m1) %>% as.data.frame %>% .[['sdcor']]
-      data.frame(variable=c('beta_0', 'beta_1', 'sigma_u0', 'sigma'),
-                 value=c(betas, sigmas))
-    }) %>% bind_rows(., .id='test') %>% as.data.frame
-    print(input$analysis_reps)
-    print(str(input$analysis_reps))
-    fluidRow(
-      column(6,
-        renderPrint({
-          summary(m)
-        })
-      ),
-      column(6,
-             tagList(
-               numericInput("analysis_reps", label = h4("Analysis replicates"), value = 1),
-               h4("Recovery"),
-               renderPlot({
-                 ggplot(tmp_out) +
-                   geom_histogram(aes(x=value), color='black', fill='white') +
-                   facet_grid(.~variable, scales='free_x')
-               })
-             )
-      )
-    )
-  })
+  # output$analysis <- renderUI({
+  #   rep_analysis <- function(n, data) {
+  #     sim_data_using_hyperparams(input, data)
+  #   }
+  #   dat <- simulated_data()$sim_df_full %>%
+  #     mutate(group=interaction(panel, subpanel, unit)) %>%
+  #     mutate(period=period-min(period))
+  #   m <- glmer(y ~ period + (1|group), data=dat, family='gaussian')
+  #   # browser()
+  #   tmp <- lapply(seq_len(50), rep_analysis,  #
+  #          data=core_panel_data()$df) #
+  #   tmp_out <- lapply(tmp, function(x) {
+  #     x <- x %>%
+  #       mutate(group=interaction(panel, subpanel, unit)) %>%
+  #       mutate(period=period-min(period))
+  #     m1 <- update(m, data=x)
+  #     betas <- summary(m1)$coefficients %>% as.data.frame %>% .[['Estimate']]
+  #     sigmas <- VarCorr(m1) %>% as.data.frame %>% .[['sdcor']]
+  #     data.frame(variable=c('beta_0', 'beta_1', 'sigma_u0', 'sigma'),
+  #                value=c(betas, sigmas))
+  #   }) %>% bind_rows(., .id='test') %>% as.data.frame
+  #   print(input$analysis_reps)
+  #   print(str(input$analysis_reps))
+  #   fluidRow(
+  #     column(6,
+  #       renderPrint({
+  #         summary(m)
+  #       })
+  #     ),
+  #     column(6,
+  #            tagList(
+  #              numericInput("analysis_reps", label = h4("Analysis replicates"), value = 1),
+  #              h4("Recovery"),
+  #              renderPlot({
+  #                ggplot(tmp_out) +
+  #                  geom_histogram(aes(x=value), color='black', fill='white') +
+  #                  facet_grid(.~variable, scales='free_x')
+  #              })
+  #            )
+  #     )
+  #   )
+  # })
 
   output$downloadData <- downloadHandler(
     filename=function() {

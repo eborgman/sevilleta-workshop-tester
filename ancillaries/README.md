@@ -20,3 +20,7 @@ you're only visiting a subset of those sites in a given year, you have to weight
 a little bit more to account for the sites that were _not_ included in that
 given year.  
 __If non-sampling error is encountered__
+
+
+## Reading material
+[Example of using survey design weights in lmer](http://rstudio-pubs-static.s3.amazonaws.com/27276_8ff15b5bf845431fb1d89dea7c7aa424.html)

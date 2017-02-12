@@ -1,9 +1,9 @@
 dist_init <- data.frame(
-  dist=c('norm', 'lnorm', 'pois'),  #, 'binom'
-  beta_0=c(3, 0.5, 0.5),
-  beta_1=c(1.5, -1, -1),
-  sigma_u0=c(1, 0.2, 0.2),
-  sigma=c(2, 0.75, NA)
+  dist=c('norm', 'lnorm', 'pois', 'binom'),
+  beta_0=c(3, 0.5, 2, 0.25),
+  beta_1=c(1.5, -1, -0.4, -0.5),
+  sigma_u0=c(1, 0.2, 0.6, 0.1),
+  sigma=c(2, 0.75, NA, NA)
 )
 
 hyperparameterInput <- function(input, id, label="Panel input",
@@ -12,7 +12,6 @@ hyperparameterInput <- function(input, id, label="Panel input",
   ns <- NS(id)  # a namespace function using the provided id
   style <-
     'display:inline-block; vertical-align:center; width:20%;'
-  # browser()
   init_values <- dist_lookup %>% filter(dist==input$dist)
   tagList(
     tags$div(style=style,
