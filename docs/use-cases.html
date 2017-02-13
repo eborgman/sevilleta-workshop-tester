@@ -220,7 +220,7 @@ $(document).ready(function () {
 <p>The examples below assume that errors are not correlated within nor between measures. We also ignore aspects of membership design and any specification of design weights. We use <code>glmer()</code> to obtain maximum likelihood estimates for the coefficients.</p>
 <div id="a-random-intercepts-model-for-a-normally-distributed-outcome" class="section level4">
 <h4>A random-intercepts model for a normally-distributed outcome</h4>
-<p>Let’s assume we’ve generated (and <em>downloaded</em>) revisit design data with the following structure: <span class="math inline">\([(1-0)^1, (2-3)^4]\)</span> with 5 and 7 units in panels 1 and 2, respectively, for a total 33 units visited between 2008 and 2016. The hyperparameters we invoked in simulating the (normally-distributed) outcome were: <span class="math inline">\(\sigma_{u_0}=1\)</span>, <span class="math inline">\(\beta_0=3\)</span>, <span class="math inline">\(\sigma=2\)</span>, and <span class="math inline">\(\beta_1=1.5\)</span>.</p>
+<p>Let’s assume we’ve generated (and <em>downloaded</em>) revisit design data with the following structure: <span class="math">\([(1-0)^1, (2-3)^4]\)</span> with 5 and 7 units in panels 1 and 2, respectively, for a total 33 units visited between 2008 and 2016. The hyperparameters we invoked in simulating the (normally-distributed) outcome were: <span class="math">\(\sigma_{u_0}=1\)</span>, <span class="math">\(\beta_0=3\)</span>, <span class="math">\(\sigma=2\)</span>, and <span class="math">\(\beta_1=1.5\)</span>.</p>
 <pre class="r"><code>library(dplyr)
 library(ggplot2)
 library(lme4)
@@ -278,7 +278,7 @@ lmer(y ~ period + (1|group), data=dat %&gt;% filter(is_sampled==1))</code></pre>
 </div>
 <div id="a-random-intercepts-model-for-a-poisson-distributed-outcome" class="section level4">
 <h4>A random-intercepts model for a Poisson-distributed outcome</h4>
-<p>Assume revisit design data with the following structure: <span class="math inline">\([(1-0)^1, (2-3)^4]\)</span> with 5 and 7 units in panels 1 and 2, respectively, for a total 33 units visited between 2008 and 2016. The hyperparameters we invoked in simulating the (normally-distributed) outcome were: <span class="math inline">\(\sigma_{u_0}=0.6\)</span>, <span class="math inline">\(\beta_0=2\)</span>, and <span class="math inline">\(\beta_1=-0.4\)</span>.</p>
+<p>Assume revisit design data with the following structure: <span class="math">\([(1-0)^1, (2-3)^4]\)</span> with 5 and 7 units in panels 1 and 2, respectively, for a total 33 units visited between 2008 and 2016. The hyperparameters we invoked in simulating the (normally-distributed) outcome were: <span class="math">\(\sigma_{u_0}=0.6\)</span>, <span class="math">\(\beta_0=2\)</span>, and <span class="math">\(\beta_1=-0.4\)</span>.</p>
 <pre class="r"><code>csv_file &lt;- file.path(PROJ_ROOT, &#39;data&#39;, &#39;simulated&#39;, &#39;data-2017-02-12-pois.csv&#39;)
 dat &lt;- read.csv(csv_file) %&gt;%
   mutate(group=interaction(panel, subpanel, unit),
@@ -335,7 +335,7 @@ glmer(y ~ period + (1|group), data=dat %&gt;% filter(is_sampled==1), family=pois
 </div>
 <div id="a-random-intercepts-model-for-a-binomially-distributed-outcome" class="section level4">
 <h4>A random-intercepts model for a binomially-distributed outcome</h4>
-<p>Assume revisit design data with the following structure: <span class="math inline">\([(1-0)^1, (2-3)^4]\)</span> with 5 and 7 units in panels 1 and 2, respectively, for a total 33 units visited between 2008 and 2016. The hyperparameters we invoked in simulating the (normally-distributed) outcome were: <span class="math inline">\(\sigma_{u_0}=0.1\)</span>, <span class="math inline">\(\beta_0=0.25\)</span>, and <span class="math inline">\(\beta_1=-0.5\)</span>.</p>
+<p>Assume revisit design data with the following structure: <span class="math">\([(1-0)^1, (2-3)^4]\)</span> with 5 and 7 units in panels 1 and 2, respectively, for a total 33 units visited between 2008 and 2016. The hyperparameters we invoked in simulating the (normally-distributed) outcome were: <span class="math">\(\sigma_{u_0}=0.1\)</span>, <span class="math">\(\beta_0=0.25\)</span>, and <span class="math">\(\beta_1=-0.5\)</span>.</p>
 <pre class="r"><code>csv_file &lt;- file.path(PROJ_ROOT, &#39;data&#39;, &#39;simulated&#39;, &#39;data-2017-02-12-binom.csv&#39;)
 dat &lt;- read.csv(csv_file) %&gt;%
   mutate(group=interaction(panel, subpanel, unit),
