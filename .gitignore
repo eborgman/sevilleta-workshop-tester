@@ -6,4 +6,4 @@ maps/*
 !maps/.gitkeep
 .httr-oauth
 .ipynb_checkpoints
-
+/tests
