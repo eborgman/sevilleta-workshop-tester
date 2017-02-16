@@ -7,3 +7,4 @@ maps/*
 .httr-oauth
 .ipynb_checkpoints
 /tests
+/data/SCPN/figs/
