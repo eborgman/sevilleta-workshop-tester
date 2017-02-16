@@ -70,14 +70,14 @@ get_design_notation <- function(data) {
 sim_data_using_hyperparams <- function(input, data) {
   design_framework <- get_design_framework(data)
   u_units <- get_u_units(design_framework)
+
   unit_reps_summary <- design_framework %>%
     group_by(panel, subpanel, unit) %>%
-    summarise(n=n()) %>%
+    summarise(this_n=n()) %>%
     ungroup
 
-  n <- nrow(design_framework)
-  unit_reps <- unit_reps_summary %>% .[['n']]
-
+  this_n <- nrow(design_framework)
+  unit_reps <- unit_reps_summary %>% .[['this_n']]
   # Set seed for replicability.
   # set.seed(123)
   # Random intercepts.
@@ -96,13 +96,13 @@ sim_data_using_hyperparams <- function(input, data) {
   beta_1   <- input[['hyperparamInput-beta_1']]
   # Outcome.
   if (input$dist=='norm') {
-    y_ij     <- rnorm(n, beta_0j + beta_1*X_1ij, sigma)
+    y_ij     <- rnorm(this_n, beta_0j + beta_1*X_1ij, sigma)
   } else if (input$dist=='lnorm') {
-    y_ij     <- rlnorm(n, exp(beta_0j + beta_1*X_1ij), sigma)
+    y_ij     <- rlnorm(this_n, exp(beta_0j + beta_1*X_1ij), sigma)
   } else if (input$dist=='pois') {
-    y_ij     <- rpois(n, exp(beta_0j + beta_1*X_1ij))
+    y_ij     <- rpois(this_n, exp(beta_0j + beta_1*X_1ij))
   } else if (input$dist=='binom') {
-    y_ij     <- rbinom(n, 100, inv_logit(beta_0j + beta_1*X_1ij))
+    y_ij     <- rbinom(this_n, 100, inv_logit(beta_0j + beta_1*X_1ij))
   }
 
   design_framework %>% mutate(y=y_ij)
